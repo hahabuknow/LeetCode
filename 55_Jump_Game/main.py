@@ -1,4 +1,3 @@
-# this version will result in Time Limit Exceeded.
 class Solution:
     def canJump(self, nums):
         self.locTag = {}
@@ -7,8 +6,6 @@ class Solution:
         return self.canJumpCal(0)
 
     def canJumpCal(self, idx):
-        print("=== check index: " + str(idx) + " ===")
-        print(self.locTag)
         if idx in self.locTag:
             print("Found answer for: "+ str(idx))
             return self.locTag[idx]
@@ -22,6 +19,8 @@ class Solution:
             return False
         while step > 0:
             checkIdx = idx + step
+            if checkIdx in self.locTag:
+                return self.locTag[checkIdx]
             if self.canJumpCal(checkIdx):
                 self.locTag[checkIdx] = True
                 return True
