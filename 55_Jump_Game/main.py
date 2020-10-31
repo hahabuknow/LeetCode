@@ -3,27 +3,30 @@ class Solution:
     def canJump(self, nums):
         self.locTag = {}
         self.oriLen = len(nums)
-        return self.canJumpCal(nums)
+        self.nums = nums
+        return self.canJumpCal(0)
 
-    def canJumpCal(self, subNums):
-        subNumsLen = len(subNums)
-        loc = self.oriLen - subNumsLen
-        if loc in self.locTag:
-            return self.locTag[loc]
+    def canJumpCal(self, idx):
+        print("=== check index: " + str(idx) + " ===")
+        print(self.locTag)
+        if idx in self.locTag:
+            print("Found answer for: "+ str(idx))
+            return self.locTag[idx]
 
-        maxStep = subNums[0]
-        if maxStep >= subNumsLen - 1:
-            self.locTag[loc] = True
+        step = maxStep = self.nums[idx]
+        if maxStep >= len(self.nums[idx:]) - 1:
+            self.locTag[idx] = True
             return True
-
-        step = 1
-        achieve = False
-        while step <= maxStep:
-            if self.canJumpCal(subNums[step:]):
-                self.locTag[loc] = True
+        if maxStep == 0:
+            self.locTag[idx] = False
+            return False
+        while step > 0:
+            checkIdx = idx + step
+            if self.canJumpCal(checkIdx):
+                self.locTag[checkIdx] = True
                 return True
-            step += 1
-        self.locTag[loc] = False
+            self.locTag[checkIdx] = False
+            step -= 1
         return False
 
 if __name__ == '__main__':
